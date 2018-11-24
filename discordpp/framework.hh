@@ -7,6 +7,7 @@
 #include <vector>
 #include <regex>
 #include <functional>
+#include <boost/filesystem.hpp>
 
 #include <discordpp/bot.hh>
 
@@ -120,6 +121,36 @@ namespace discordpp
         std::map<std::string, std::function<void(std::string, json)>> commands;
 
     };
+
+    std::string tokenFromFile(std::string tokenFilePath)
+    {
+        const std::string err = "CRITICAL: There is no such file as "
+                + tokenFilePath + "! Copy the example login.dat to make one.\n";
+
+        if ( boost::filesystem::exists( tokenFilePath ) )
+        {
+            std::ifstream tokenFile;
+            tokenFile.open(tokenFilePath);
+
+            std::string token;
+
+            if (tokenFile.is_open()) {
+                std::getline(tokenFile, token);
+            } else {
+                std::cerr << err;
+                exit(1);
+            }
+            tokenFile.close();
+
+            return token;
+        }
+        else
+        {
+            std::cerr << err;
+            exit(1);
+        }
+    }
+
 }
 
 #endif // DISCORDPP_FRAMEWORK_HH
