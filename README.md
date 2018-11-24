@@ -4,4 +4,4 @@ A framework for building d++ bots
 
 ## Usage
 
-Full documentation is available in the `docs` directory.
+### Example in [swissChili/echo-bot](https://github.com/swissChili/echo-bot)
