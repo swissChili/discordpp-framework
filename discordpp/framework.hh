@@ -80,21 +80,26 @@ namespace discordpp
                     (command, handler) );
         }
 
-        std::string matchPrompt(std::string command)
+        std::string matchPrompt(std::string const command)
         {
             // takes a string with the following format:
             // {prompt} command args
             // and returns a vector<string> of args
-            std::regex cmd(prompt.append("(.+)"));
+            std::regex cmd(prompt + "(.+)");
 
             std::cmatch match;
             std::regex_match(command.c_str(), match, cmd);
 
             if ( !match.empty() )
             {
+                std::vector<std::string> results({});
+                std::string r ("");
                 for ( auto m : match )
-                    std::cout << m << "\n\n";
-                return match[1];
+                    results.push_back(m);
+                results.erase(results.begin());
+                for ( auto &res : results )
+                    r.append(res);
+                return r;
             }
             else
                 return std::string("");
